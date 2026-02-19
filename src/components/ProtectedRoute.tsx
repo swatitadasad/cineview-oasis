@@ -1,11 +1,9 @@
-import { useState } from "react";
 import { Navigate } from "react-router-dom";
-import AuthPage from "@/components/AuthPage";
 import { useFirebaseAuth } from "@/contexts/AuthContext";
+import { ReactNode } from "react";
 
-const Index = () => {
+export default function ProtectedRoute({ children }: { children: ReactNode }) {
   const { user, loading } = useFirebaseAuth();
-  const [authMode, setAuthMode] = useState<"login" | "signup">("login");
 
   if (loading) {
     return (
@@ -27,16 +25,9 @@ const Index = () => {
     );
   }
 
-  if (user) {
-    return <Navigate to="/dashboard" replace />;
+  if (!user) {
+    return <Navigate to="/" replace />;
   }
 
-  return (
-    <AuthPage
-      mode={authMode}
-      onToggleMode={() => setAuthMode(authMode === "login" ? "signup" : "login")}
-    />
-  );
-};
-
-export default Index;
+  return <>{children}</>;
+}
