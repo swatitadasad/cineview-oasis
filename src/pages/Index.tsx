@@ -1,14 +1,42 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import AuthPage from "@/components/AuthPage";
+import HomePage from "@/pages/HomePage";
+import { useAuth } from "@/hooks/useAuth";
 
 const Index = () => {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+  const { user, loading } = useAuth();
+  const [authMode, setAuthMode] = useState<"login" | "signup">("login");
+
+  if (loading) {
+    return (
+      <div
+        className="min-h-screen flex items-center justify-center"
+        style={{ background: "hsl(var(--background))" }}
+      >
+        <div className="flex flex-col items-center gap-4">
+          <div
+            className="w-12 h-12 rounded-full border-4 animate-spin"
+            style={{
+              borderColor: "hsl(var(--border))",
+              borderTopColor: "hsl(var(--primary))",
+            }}
+          />
+          <p className="text-muted-foreground text-sm">Loading StreamVault...</p>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
+
+  if (!user) {
+    return (
+      <AuthPage
+        mode={authMode}
+        onToggleMode={() => setAuthMode(authMode === "login" ? "signup" : "login")}
+      />
+    );
+  }
+
+  return <HomePage />;
 };
 
 export default Index;
