@@ -1,0 +1,192 @@
+export interface Movie {
+  id: number;
+  title: string;
+  description: string;
+  genre: string;
+  year: number;
+  rating: string;
+  duration: string;
+  thumbnail: string;
+  videoUrl: string;
+  featured?: boolean;
+}
+
+// Using picsum for movie poster placeholders, real video from public domain
+const MOVIES: Movie[] = [
+  {
+    id: 1,
+    title: "Midnight Shadows",
+    description: "A detective unravels a web of conspiracies that stretches across time and space in this neo-noir thriller.",
+    genre: "Thriller",
+    year: 2024,
+    rating: "R",
+    duration: "2h 18m",
+    thumbnail: "https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?w=400&h=600&fit=crop",
+    videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+    featured: true,
+  },
+  {
+    id: 2,
+    title: "Crimson Sky",
+    description: "An astronaut stranded on Mars fights for survival while uncovering an alien secret.",
+    genre: "Sci-Fi",
+    year: 2023,
+    rating: "PG-13",
+    duration: "2h 05m",
+    thumbnail: "https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?w=400&h=600&fit=crop",
+    videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+  },
+  {
+    id: 3,
+    title: "The Last Kingdom",
+    description: "A warrior prince battles to reclaim his homeland from a ruthless conqueror.",
+    genre: "Action",
+    year: 2024,
+    rating: "PG-13",
+    duration: "1h 58m",
+    thumbnail: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=600&fit=crop",
+    videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+  },
+  {
+    id: 4,
+    title: "Neon Nights",
+    description: "In a cyberpunk city, a hacker discovers a truth that could bring down the global elite.",
+    genre: "Sci-Fi",
+    year: 2023,
+    rating: "R",
+    duration: "2h 12m",
+    thumbnail: "https://images.unsplash.com/photo-1535016120720-40c646be5580?w=400&h=600&fit=crop",
+    videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+  },
+  {
+    id: 5,
+    title: "The Forgotten",
+    description: "A woman wakes up with no memory in a hospital — and everyone denies knowing her.",
+    genre: "Mystery",
+    year: 2024,
+    rating: "PG-13",
+    duration: "1h 52m",
+    thumbnail: "https://images.unsplash.com/photo-1518676590629-3dcbd9c5a5c9?w=400&h=600&fit=crop",
+    videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+  },
+  {
+    id: 6,
+    title: "Storm Breaker",
+    description: "Elite soldiers must stop a rogue general before a nuclear catastrophe.",
+    genre: "Action",
+    year: 2023,
+    rating: "PG-13",
+    duration: "2h 01m",
+    thumbnail: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=400&h=600&fit=crop",
+    videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+  },
+  {
+    id: 7,
+    title: "Echo Chamber",
+    description: "A journalist discovers her every move is being mirrored by a mysterious doppelganger.",
+    genre: "Thriller",
+    year: 2024,
+    rating: "R",
+    duration: "1h 45m",
+    thumbnail: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=600&fit=crop",
+    videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+  },
+  {
+    id: 8,
+    title: "Wild Hearts",
+    description: "Two strangers on a cross-country road trip find love in the most unexpected places.",
+    genre: "Romance",
+    year: 2023,
+    rating: "PG",
+    duration: "1h 55m",
+    thumbnail: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=600&fit=crop",
+    videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+  },
+  {
+    id: 9,
+    title: "Dark Waters",
+    description: "A marine biologist uncovers a terrifying creature lurking in the deepest ocean trench.",
+    genre: "Horror",
+    year: 2024,
+    rating: "R",
+    duration: "2h 08m",
+    thumbnail: "https://images.unsplash.com/photo-1484291470158-b8f8d608850d?w=400&h=600&fit=crop",
+    videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+  },
+  {
+    id: 10,
+    title: "Phantom City",
+    description: "A ghost detective solves crimes in a city haunted by the living and the dead.",
+    genre: "Mystery",
+    year: 2023,
+    rating: "PG-13",
+    duration: "2h 00m",
+    thumbnail: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=400&h=600&fit=crop",
+    videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+  },
+  {
+    id: 11,
+    title: "Apex Predator",
+    description: "The world's most dangerous hunter becomes the hunted in a remote Alaskan wilderness.",
+    genre: "Action",
+    year: 2024,
+    rating: "R",
+    duration: "1h 49m",
+    thumbnail: "https://images.unsplash.com/photo-1551884170-09fb70a3a2ed?w=400&h=600&fit=crop",
+    videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+  },
+  {
+    id: 12,
+    title: "The Shift",
+    description: "A physicist accidentally swaps consciousness with her parallel-universe counterpart.",
+    genre: "Sci-Fi",
+    year: 2023,
+    rating: "PG-13",
+    duration: "2h 15m",
+    thumbnail: "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=400&h=600&fit=crop",
+    videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+  },
+  {
+    id: 13,
+    title: "Blood Moon",
+    description: "Ancient vampires awaken beneath a small town, and only one family knows the truth.",
+    genre: "Horror",
+    year: 2024,
+    rating: "R",
+    duration: "1h 57m",
+    thumbnail: "https://images.unsplash.com/photo-1509347528160-9a9e33742cdb?w=400&h=600&fit=crop",
+    videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+  },
+  {
+    id: 14,
+    title: "Iron Will",
+    description: "A champion boxer fights back from the brink of death for one final match.",
+    genre: "Drama",
+    year: 2023,
+    rating: "PG-13",
+    duration: "2h 22m",
+    thumbnail: "https://images.unsplash.com/photo-1544117519-31a4b719223d?w=400&h=600&fit=crop",
+    videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+  },
+  {
+    id: 15,
+    title: "Lost Signal",
+    description: "After a communications blackout, a small crew orbiting Earth realizes they are completely alone.",
+    genre: "Sci-Fi",
+    year: 2024,
+    rating: "PG-13",
+    duration: "2h 03m",
+    thumbnail: "https://images.unsplash.com/photo-1516339901601-2e1b62dc0c45?w=400&h=600&fit=crop",
+    videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+  },
+];
+
+export const MOVIE_ROWS = [
+  { title: "🔥 Trending Now", movies: MOVIES.slice(0, 6) },
+  { title: "🎬 Action & Adventure", movies: MOVIES.filter(m => m.genre === "Action" || m.genre === "Sci-Fi") },
+  { title: "😱 Thrillers & Horror", movies: MOVIES.filter(m => m.genre === "Thriller" || m.genre === "Horror") },
+  { title: "🌟 Critically Acclaimed", movies: MOVIES.slice(7, 15) },
+];
+
+export const FEATURED_MOVIE = MOVIES[0];
+export default MOVIES;
