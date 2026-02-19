@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Play, Search, Bell, LogOut, User, Menu, X } from "lucide-react";
-import { useAuth } from "@/hooks/useAuth";
+import { useFirebaseAuth } from "@/contexts/AuthContext";
 
 export default function Navbar() {
-  const { user, signOut } = useAuth();
+  const { user, signOut } = useFirebaseAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
 
