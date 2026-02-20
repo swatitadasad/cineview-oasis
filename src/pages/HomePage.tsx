@@ -1,30 +1,74 @@
-import { useState } from "react";
-import { Movie } from "@/data/movies";
-import { MOVIE_ROWS, FEATURED_MOVIE } from "@/data/movies";
+import { useState, useEffect } from "react";
+import { DbMovie } from "@/types/movie";
+import { supabase } from "@/integrations/supabase/client";
 import HeroBanner from "@/components/HeroBanner";
 import MovieRow from "@/components/MovieRow";
 import VideoPlayer from "@/components/VideoPlayer";
 import Navbar from "@/components/Navbar";
 
+const ROW_CATEGORIES = [
+  { key: "trending", label: "🔥 Trending Now" },
+  { key: "action", label: "🎬 Action & Adventure" },
+  { key: "thriller", label: "😱 Thrillers & Horror" },
+  { key: "acclaimed", label: "🌟 Critically Acclaimed" },
+];
+
 export default function HomePage() {
-  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
+  const [movies, setMovies] = useState<DbMovie[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedMovie, setSelectedMovie] = useState<DbMovie | null>(null);
+
+  useEffect(() => {
+    async function fetchMovies() {
+      const { data, error } = await supabase
+        .from("movies")
+        .select("*")
+        .order("sort_order", { ascending: true });
+
+      if (!error && data) {
+        setMovies(data as DbMovie[]);
+      }
+      setLoading(false);
+    }
+    fetchMovies();
+  }, []);
+
+  const featuredMovie = movies.find((m) => m.featured) ?? movies[0] ?? null;
+
+  const movieRows = ROW_CATEGORIES.map((cat) => ({
+    label: cat.label,
+    movies: movies.filter((m) => m.row_category === cat.key),
+  })).filter((row) => row.movies.length > 0);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center" style={{ background: "hsl(var(--background))" }}>
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-10 h-10 rounded-full border-2 border-primary border-t-transparent animate-spin" />
+          <p className="text-muted-foreground text-sm">Loading your movies…</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen" style={{ background: "hsl(var(--background))" }}>
       <Navbar />
 
       {/* Hero */}
-      <HeroBanner
-        movie={FEATURED_MOVIE}
-        onPlay={() => setSelectedMovie(FEATURED_MOVIE)}
-      />
+      {featuredMovie && (
+        <HeroBanner
+          movie={featuredMovie}
+          onPlay={() => setSelectedMovie(featuredMovie)}
+        />
+      )}
 
       {/* Movie rows */}
       <div className="pb-16 -mt-8 relative z-10">
-        {MOVIE_ROWS.map((row) => (
+        {movieRows.map((row) => (
           <MovieRow
-            key={row.title}
-            title={row.title}
+            key={row.label}
+            title={row.label}
             movies={row.movies}
             onMovieClick={setSelectedMovie}
           />

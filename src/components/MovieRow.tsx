@@ -1,11 +1,11 @@
 import { useRef } from "react";
-import { ChevronLeft, ChevronRight, Play, Star } from "lucide-react";
-import { Movie } from "@/data/movies";
+import { ChevronLeft, ChevronRight, Play } from "lucide-react";
+import { DbMovie } from "@/types/movie";
 
 interface MovieRowProps {
   title: string;
-  movies: Movie[];
-  onMovieClick: (movie: Movie) => void;
+  movies: DbMovie[];
+  onMovieClick: (movie: DbMovie) => void;
 }
 
 export default function MovieRow({ title, movies, onMovieClick }: MovieRowProps) {
@@ -50,9 +50,9 @@ export default function MovieRow({ title, movies, onMovieClick }: MovieRowProps)
               onClick={() => onMovieClick(movie)}
             >
               {/* Poster */}
-              <div className="aspect-[2/3]">
+              <div className="aspect-[2/3] bg-secondary">
                 <img
-                  src={movie.thumbnail}
+                  src={movie.thumbnail ?? "https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?w=500&h=750&fit=crop"}
                   alt={movie.title}
                   className="w-full h-full object-cover"
                   loading="lazy"
@@ -66,11 +66,16 @@ export default function MovieRow({ title, movies, onMovieClick }: MovieRowProps)
                     className="w-7 h-7 rounded-full flex items-center justify-center"
                     style={{ background: "hsl(var(--foreground))" }}
                   >
-                    <Play className="w-3.5 h-3.5 fill-current" style={{ color: "hsl(var(--background))" }} />
+                    <Play
+                      className="w-3.5 h-3.5 fill-current"
+                      style={{ color: "hsl(var(--background))" }}
+                    />
                   </button>
                 </div>
                 <p className="text-foreground text-xs font-semibold line-clamp-1">{movie.title}</p>
-                <p className="text-muted-foreground text-xs">{movie.year} · {movie.genre}</p>
+                <p className="text-muted-foreground text-xs">
+                  {movie.year} · {movie.genre}
+                </p>
               </div>
             </div>
           ))}
