@@ -1,25 +1,26 @@
 import { Play, Info } from "lucide-react";
-import { Movie } from "@/data/movies";
+import { DbMovie } from "@/types/movie";
 import heroBanner from "@/assets/hero-banner.jpg";
 
 interface HeroBannerProps {
-  movie: Movie;
+  movie: DbMovie;
   onPlay: () => void;
 }
 
 export default function HeroBanner({ movie, onPlay }: HeroBannerProps) {
   return (
     <div className="relative w-full" style={{ height: "clamp(400px, 60vw, 680px)" }}>
-      {/* Background image */}
+      {/* Background image — use movie thumbnail or fallback */}
       <img
-        src={heroBanner}
+        src={movie.thumbnail ?? heroBanner}
         alt={movie.title}
         className="absolute inset-0 w-full h-full object-cover"
       />
 
       {/* Gradient overlays */}
       <div className="absolute inset-0 gradient-hero" />
-      <div className="absolute bottom-0 left-0 right-0 h-40"
+      <div
+        className="absolute bottom-0 left-0 right-0 h-40"
         style={{ background: "linear-gradient(to top, hsl(var(--background)) 0%, transparent 100%)" }}
       />
 

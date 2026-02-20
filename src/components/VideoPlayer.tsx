@@ -1,9 +1,9 @@
 import { useRef, useEffect } from "react";
-import { X, Play, Volume2, VolumeX, Maximize } from "lucide-react";
-import { Movie } from "@/data/movies";
+import { X } from "lucide-react";
+import { DbMovie } from "@/types/movie";
 
 interface VideoPlayerProps {
-  movie: Movie;
+  movie: DbMovie;
   onClose: () => void;
 }
 
@@ -55,10 +55,10 @@ export default function VideoPlayer({ movie, onClose }: VideoPlayerProps) {
         <div className="aspect-video bg-black">
           <video
             ref={videoRef}
-            src={movie.videoUrl}
+            src={movie.video_url ?? undefined}
             controls
             className="w-full h-full"
-            poster={movie.thumbnail}
+            poster={movie.thumbnail ?? undefined}
           />
         </div>
 
