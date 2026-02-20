@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { DbMovie } from "@/types/movie";
 import { supabase } from "@/integrations/supabase/client";
 import HeroBanner from "@/components/HeroBanner";
 import MovieRow from "@/components/MovieRow";
-import VideoPlayer from "@/components/VideoPlayer";
 import Navbar from "@/components/Navbar";
 
 const ROW_CATEGORIES = [
@@ -14,9 +14,9 @@ const ROW_CATEGORIES = [
 ];
 
 export default function HomePage() {
+  const navigate = useNavigate();
   const [movies, setMovies] = useState<DbMovie[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedMovie, setSelectedMovie] = useState<DbMovie | null>(null);
 
   useEffect(() => {
     async function fetchMovies() {
@@ -40,6 +40,10 @@ export default function HomePage() {
     movies: movies.filter((m) => m.row_category === cat.key),
   })).filter((row) => row.movies.length > 0);
 
+  const handleMovieClick = (movie: DbMovie) => {
+    navigate(`/watch/${movie.id}`);
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: "hsl(var(--background))" }}>
@@ -59,7 +63,7 @@ export default function HomePage() {
       {featuredMovie && (
         <HeroBanner
           movie={featuredMovie}
-          onPlay={() => setSelectedMovie(featuredMovie)}
+          onPlay={() => handleMovieClick(featuredMovie)}
         />
       )}
 
@@ -70,7 +74,7 @@ export default function HomePage() {
             key={row.label}
             title={row.label}
             movies={row.movies}
-            onMovieClick={setSelectedMovie}
+            onMovieClick={handleMovieClick}
           />
         ))}
       </div>
@@ -79,14 +83,6 @@ export default function HomePage() {
       <footer className="text-center py-8 text-muted-foreground text-sm border-t border-border/30">
         <p>© 2024 StreamVault. All rights reserved.</p>
       </footer>
-
-      {/* Video player modal */}
-      {selectedMovie && (
-        <VideoPlayer
-          movie={selectedMovie}
-          onClose={() => setSelectedMovie(null)}
-        />
-      )}
     </div>
   );
 }

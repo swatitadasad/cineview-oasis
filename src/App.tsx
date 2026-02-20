@@ -7,6 +7,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
 import HomePage from "./pages/HomePage";
+import WatchPage from "./pages/WatchPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -25,6 +26,14 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <HomePage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/watch/:id"
+              element={
+                <ProtectedRoute>
+                  <WatchPage />
                 </ProtectedRoute>
               }
             />
