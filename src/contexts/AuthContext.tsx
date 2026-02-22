@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, useRef, ReactNode } from "react";
 import {
   User,
   onAuthStateChanged,
@@ -21,9 +21,12 @@ const AuthContext = createContext<AuthContextType | null>(null);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const isSigningUp = useRef(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      // During signup, suppress setting the user so no auto-redirect occurs
+      if (isSigningUp.current) return;
       setUser(firebaseUser);
       setLoading(false);
     });
@@ -35,7 +38,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const signUp = async (email: string, password: string) => {
-    await createUserWithEmailAndPassword(auth, email, password);
+    isSigningUp.current = true;
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      await firebaseSignOut(auth);
+    } finally {
+      isSigningUp.current = false;
+    }
   };
 
   const signOut = async () => {
