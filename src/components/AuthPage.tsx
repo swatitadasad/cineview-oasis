@@ -12,7 +12,7 @@ interface AuthPageProps {
 }
 
 export default function AuthPage({ mode, onToggleMode }: AuthPageProps) {
-  const { signIn, signUp } = useFirebaseAuth();
+  const { signIn, signUp, signOut } = useFirebaseAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,19 +20,45 @@ export default function AuthPage({ mode, onToggleMode }: AuthPageProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const getFirebaseErrorMessage = (error: unknown): string => {
+    if (!(error instanceof Error)) return "An unexpected error occurred. Please try again.";
+    const msg = error.message;
+    if (msg.includes("auth/email-already-in-use")) return "This email is already registered. Please sign in instead.";
+    if (msg.includes("auth/invalid-email")) return "Please enter a valid email address.";
+    if (msg.includes("auth/weak-password")) return "Password must be at least 6 characters long.";
+    if (msg.includes("auth/user-not-found") || msg.includes("auth/invalid-credential")) return "Invalid email or password. Please try again.";
+    if (msg.includes("auth/wrong-password")) return "Incorrect password. Please try again.";
+    if (msg.includes("auth/too-many-requests")) return "Too many failed attempts. Please try again later.";
+    if (msg.includes("auth/network-request-failed")) return "Network error. Please check your connection.";
+    return msg;
+  };
+
+  const [signupSuccess, setSignupSuccess] = useState(false);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setSignupSuccess(false);
     setLoading(true);
     try {
       if (mode === "signup") {
         await signUp(email, password);
+        // After signup, sign out so user must log in explicitly
+        await signOut();
+        setSignupSuccess(true);
+        setEmail("");
+        setPassword("");
+        // Switch to login mode after a brief delay
+        setTimeout(() => {
+          onToggleMode();
+          setSignupSuccess(false);
+        }, 2000);
       } else {
         await signIn(email, password);
+        navigate("/dashboard");
       }
-      navigate("/dashboard");
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "An error occurred");
+      setError(getFirebaseErrorMessage(err));
     } finally {
       setLoading(false);
     }
@@ -118,6 +144,12 @@ export default function AuthPage({ mode, onToggleMode }: AuthPageProps) {
                 </button>
               </div>
             </div>
+
+            {signupSuccess && (
+              <div className="text-sm text-green-400 bg-green-400/10 border border-green-400/30 rounded-md px-3 py-2">
+                Account created successfully! Redirecting to sign in…
+              </div>
+            )}
 
             {error && (
               <div className="text-sm text-destructive bg-destructive/10 border border-destructive/30 rounded-md px-3 py-2">
