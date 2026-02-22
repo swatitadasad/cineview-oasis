@@ -5,7 +5,7 @@ import { useFirebaseAuth } from "@/contexts/AuthContext";
 
 const Index = () => {
   const { user, loading } = useFirebaseAuth();
-  const [authMode, setAuthMode] = useState<"login" | "signup">("login");
+  const [authMode, setAuthMode] = useState<"login" | "signup">("signup");
 
   if (loading) {
     return (
