@@ -43,12 +43,11 @@ export default function AuthPage({ mode, onToggleMode }: AuthPageProps) {
     try {
       if (mode === "signup") {
         await signUp(email, password);
-        // After signup, sign out so user must log in explicitly
+        // Sign out immediately so user must log in explicitly
         await signOut();
         setSignupSuccess(true);
         setEmail("");
         setPassword("");
-        // Switch to login mode after a brief delay
         setTimeout(() => {
           onToggleMode();
           setSignupSuccess(false);
