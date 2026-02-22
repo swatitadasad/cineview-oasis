@@ -12,7 +12,7 @@ interface AuthPageProps {
 }
 
 export default function AuthPage({ mode, onToggleMode }: AuthPageProps) {
-  const { signIn, signUp, signOut } = useFirebaseAuth();
+  const { signIn, signUp } = useFirebaseAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -43,8 +43,6 @@ export default function AuthPage({ mode, onToggleMode }: AuthPageProps) {
     try {
       if (mode === "signup") {
         await signUp(email, password);
-        // Sign out immediately so user must log in explicitly
-        await signOut();
         setSignupSuccess(true);
         setEmail("");
         setPassword("");
